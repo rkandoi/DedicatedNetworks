@@ -73,13 +73,13 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: wip
+  version: 0.1.0
   x-camara-commonalities: 0.6
 externalDocs:
   description: Product documentation at CAMARA
   url: https://github.com/camaraproject/DedicatedNetworks
 servers:
-  - url: "{apiRoot}/dedicated-network-accesses/vwip"
+  - url: "{apiRoot}/dedicated-network-accesses/v0.1"
     variables:
       apiRoot:
         default: http://localhost:9091
@@ -103,7 +103,7 @@ paths:
           in: query
           description: Dedicated network id
           schema:
-            $ref: 'dedicated-network.yaml#/components/schemas/NetworkId'
+            $ref: '#/components/schemas/NetworkId'
         - $ref: "#/components/parameters/x-device"
         - $ref: "#/components/parameters/x-correlator"
       responses:
@@ -268,12 +268,17 @@ components:
       type: string
       format: uuid
 
+    NetworkId:
+      description: Network id in UUID format
+      type: string
+      format: uuid
+
     BaseNetworkAccessInfo:
       description: Common attributes of a device access to a dedicated network
       type: object
       properties:
         networkId:
-          $ref: "dedicated-network.yaml#/components/schemas/NetworkId"
+          $ref: "#/components/schemas/NetworkId"
         device:
           $ref: "#/components/schemas/Device"
         qosProfiles:
@@ -384,19 +389,19 @@ components:
     ErrorInfo:
       type: object
       required:
-        - message
         - status
         - code
+        - message
       properties:
-        message:
-          type: string
-          description: A human readable description of what the event represent
         status:
           type: integer
           description: HTTP response status code
         code:
           type: string
-          description: Friendly Code to describe the error
+          description: A human-readable code to describe the error
+        message:
+          type: string
+          description: A human-readable description of what the event represents
 
   responses:
     Generic400:
